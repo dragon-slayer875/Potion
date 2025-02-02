@@ -8,14 +8,45 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "./ui/dialog";
-import { Plus } from "lucide-react";
+import { Loader2, Plus } from "lucide-react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
 const CreateNoteDialog = (props: Props) => {
+  const router = useRouter();
   const [input, setInput] = React.useState("");
+  const createNotebook = useMutation({
+    mutationFn: async () => {
+      const response = await axios.post("api/createNoteBook", {
+        name: input,
+      });
+      return response.data;
+    },
+  });
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (input === "") {
+      window.alert("Please enter a name for your Notebook.");
+      return;
+    }
+    createNotebook.mutate(undefined, {
+      onSuccess: ({ notebookId }) => {
+        console.log("created new note:", notebookId);
+        router.push(`/notebook/${notebookId}`);
+      },
+      onError: (error) => {
+        console.error(error);
+        window.alert("Failed to create a new notebook.");
+      },
+    });
+  };
+
   return (
     <Dialog>
       <DialogTrigger>
@@ -31,7 +62,7 @@ const CreateNoteDialog = (props: Props) => {
             You can create a new notebook by clicking the button below.
           </DialogDescription>
         </DialogHeader>
-        <form action="">
+        <form onSubmit={handleSubmit} action="">
           <Input
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -42,7 +73,14 @@ const CreateNoteDialog = (props: Props) => {
             <Button type="reset" variant={"secondary"}>
               Cancel
             </Button>
-            <Button className="bg-sky-600" type="submit">
+            <Button
+              className="bg-sky-600"
+              type="submit"
+              disabled={createNotebook.isPending}
+            >
+              {createNotebook.isPending && (
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              )}
               Create
             </Button>
           </div>
