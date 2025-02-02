@@ -1,6 +1,6 @@
 import { pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 
-export const $notes = pgTable("notes", {
+export const $notebooks = pgTable("notes", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
@@ -9,4 +9,4 @@ export const $notes = pgTable("notes", {
   editorState: text("editor_state"),
 });
 
-export type NoteType = typeof $notes.$inferInsert;
+export type NotebookType = typeof $notebooks.$inferInsert;
