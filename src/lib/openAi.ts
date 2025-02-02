@@ -6,7 +6,7 @@ const openai = new OpenAI({
 
 export async function generateImagePrompt(name: string) {
   try {
-    const gptResponse = await openai.chat.completions.create({
+    const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [
         {
@@ -20,10 +20,23 @@ export async function generateImagePrompt(name: string) {
         },
       ],
     });
-    const imageDescription = gptResponse.choices[0].message;
-    return imageDescription;
+    const imageDescription = response.choices[0].message.content;
+    return imageDescription as string;
   } catch (error) {
     console.error(error);
   }
 }
-export async function generateImage() { }
+
+export async function generateImage(image_description: string) {
+  try {
+    const response = await openai.images.generate({
+      prompt: image_description,
+      n: 1,
+      size: "256x256",
+    });
+    const imageUrl = response.data[0].url;
+    return imageUrl;
+  } catch (error) {
+    console.error(error);
+  }
+}
