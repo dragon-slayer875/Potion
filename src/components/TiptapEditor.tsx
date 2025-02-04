@@ -8,6 +8,7 @@ import { useDebounce } from "@/lib/Debounce";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { NotebookType } from "@/lib/db/schema";
+import { Text } from "@tiptap/extension-text";
 
 type Props = {
   notebook: NotebookType;
@@ -15,7 +16,7 @@ type Props = {
 
 const TiptapEditor = ({ notebook }: Props) => {
   const [editorState, setEditorState] = React.useState(
-    notebook.editorState || "",
+    notebook.editorState || `<h1>${notebook.name}</h1>`,
   );
 
   const saveNotebook = useMutation({
@@ -28,9 +29,21 @@ const TiptapEditor = ({ notebook }: Props) => {
     },
   });
 
+  const customText = Text.extend({
+    addKeyboardShortcuts() {
+      return {
+        "Alt-a": () => {
+          console.log("ai was run");
+
+          return true;
+        },
+      };
+    },
+  });
+
   const editor = useEditor({
     autofocus: true,
-    extensions: [StarterKit],
+    extensions: [StarterKit, customText],
     content: editorState,
     immediatelyRender: false,
     onUpdate: ({ editor }) => {
