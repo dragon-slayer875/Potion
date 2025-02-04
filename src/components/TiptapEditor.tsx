@@ -23,7 +23,7 @@ const TiptapEditor = (props: Props) => {
         {editor && <TiptapMenuBar editor={editor} />}
         <Button>Save</Button>
       </div>
-      <div>
+      <div className="prose">
         <EditorContent editor={editor} />
       </div>
     </>
