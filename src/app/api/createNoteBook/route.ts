@@ -25,7 +25,7 @@ export async function POST(req: Request) {
       status: 500,
     });
   }
-  const notebookId = await db
+  const notebook = await db
     .insert($notebooks)
     .values({
       name,
@@ -35,7 +35,8 @@ export async function POST(req: Request) {
     .returning({
       id: $notebooks.id,
     });
+
   return NextResponse.json({
-    notebook_id: notebookId[0].id,
+    notebookId: notebook[0].id,
   });
 }
