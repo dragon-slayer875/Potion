@@ -1,3 +1,4 @@
+import TiptapEditor from "@/components/TiptapEditor";
 import { Button } from "@/components/ui/button";
 import { clerkClient } from "@/lib/clerk-server";
 import { db } from "@/lib/db";
@@ -59,7 +60,7 @@ const NotebookPage = async (props: Props) => {
         </div>
         <div className="h-4"></div>
         <div className="border rounded-lg border-stone-200 shadow-xl px-16 py-8 w-full">
-          {/*editor*/}
+          <TiptapEditor />
         </div>
       </div>
     </div>
