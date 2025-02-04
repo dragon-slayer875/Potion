@@ -9,12 +9,16 @@ import { redirect } from "next/navigation";
 import React from "react";
 
 type Props = {
-  params: {
+  params: Promise<{
     notebookId: string;
-  };
+  }>;
 };
 
-const NotebookPage = async ({ params: { notebookId } }: Props) => {
+const NotebookPage = async (props: Props) => {
+  const params = await props.params;
+
+  const { notebookId } = params;
+
   const { userId } = await auth();
   if (!userId) {
     return redirect("/dashboard");
