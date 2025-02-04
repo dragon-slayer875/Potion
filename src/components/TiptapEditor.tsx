@@ -5,11 +5,29 @@ import { StarterKit } from "@tiptap/starter-kit";
 import TiptapMenuBar from "./TiptapMenuBar";
 import { Button } from "./ui/button";
 import { useDebounce } from "@/lib/Debounce";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import { NotebookType } from "@/lib/db/schema";
 
-type Props = {};
+type Props = {
+  notebook: NotebookType;
+};
 
-const TiptapEditor = (props: Props) => {
-  const [editorState, setEditorState] = React.useState("");
+const TiptapEditor = ({ notebook }: Props) => {
+  const [editorState, setEditorState] = React.useState(
+    notebook.editorState || "",
+  );
+
+  const saveNotebook = useMutation({
+    mutationFn: async () => {
+      const response = await axios.post("/api/saveNotebook", {
+        notebookId: notebook.id,
+        editorState,
+      });
+      return response.data;
+    },
+  });
+
   const editor = useEditor({
     autofocus: true,
     extensions: [StarterKit],
@@ -23,14 +41,25 @@ const TiptapEditor = (props: Props) => {
   const debouncedEditorState = useDebounce(editorState, 1000);
 
   React.useEffect(() => {
-    console.log(debouncedEditorState);
+    if (!debouncedEditorState) return;
+    saveNotebook.mutate(undefined, {
+      onSuccess: () => {
+        console.log("Saved successfully.");
+      },
+      onError: (error) => {
+        console.error(error);
+        window.alert("Failed to save notebook.");
+      },
+    });
   }, [debouncedEditorState]);
 
   return (
     <>
       <div className="flex">
         {editor && <TiptapMenuBar editor={editor} />}
-        <Button>Save</Button>
+        <Button disabled variant={"outline"}>
+          {saveNotebook.isPending ? "Saving..." : "Saved"}
+        </Button>
       </div>
       <div className="prose">
         <EditorContent editor={editor} />

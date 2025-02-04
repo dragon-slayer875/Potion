@@ -41,6 +41,7 @@ const NotebookPage = async (props: Props) => {
   }
 
   const notebook = notebooks[0];
+
   return (
     <div className="min-h-screen grainy p-8">
       <div className="max-w-4xl mx-auto">
@@ -60,7 +61,7 @@ const NotebookPage = async (props: Props) => {
         </div>
         <div className="h-4"></div>
         <div className="border rounded-lg border-stone-200 shadow-xl px-16 py-8 w-full">
-          <TiptapEditor />
+          <TiptapEditor notebook={notebook} />
         </div>
       </div>
     </div>
