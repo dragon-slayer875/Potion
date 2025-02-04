@@ -41,7 +41,7 @@ export async function generateImage(image_description: string) {
     });
     const imageUploadData = await uploadImage(image);
     const imageUrl =
-      `https://supabase.com/dashboard/project/mygrscvbvyqjeebeelev/storage/buckets/potion-storage` +
+      `https://mygrscvbvyqjeebeelev.supabase.co/storage/v1/object/public/potion-storage/` +
       imageUploadData?.path;
     return imageUrl;
   } catch (error) {
