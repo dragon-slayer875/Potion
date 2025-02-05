@@ -9,6 +9,7 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { NotebookType } from "@/lib/db/schema";
 import { Text } from "@tiptap/extension-text";
+import { useCompletion } from "ai/react";
 
 type Props = {
   notebook: NotebookType;
@@ -18,6 +19,24 @@ const TiptapEditor = ({ notebook }: Props) => {
   const [editorState, setEditorState] = React.useState(
     notebook.editorState || `<h1>${notebook.name}</h1>`,
   );
+
+  const { completion, complete } = useCompletion({
+    streamProtocol: "text",
+  });
+
+  const lastCompletion = React.useRef("");
+
+  const token = React.useMemo(() => {
+    if (!completion) return;
+    const diff = completion.slice(lastCompletion.current.length);
+    lastCompletion.current = completion;
+    return diff;
+  }, [completion]);
+
+  React.useEffect(() => {
+    if (!editor || !token) return;
+    editor.commands.insertContent(token);
+  }, [token]);
 
   const saveNotebook = useMutation({
     mutationFn: async () => {
@@ -33,8 +52,8 @@ const TiptapEditor = ({ notebook }: Props) => {
     addKeyboardShortcuts() {
       return {
         "Alt-a": () => {
-          console.log("ai was run");
-
+          const prompt = this.editor.getText().split(" ").slice(-30).join(" ");
+          complete(prompt);
           return true;
         },
       };
