@@ -70,9 +70,7 @@ const TiptapEditor = ({ notebook }: Props) => {
   React.useEffect(() => {
     if (!debouncedEditorState) return;
     saveNotebook.mutate(undefined, {
-      onSuccess: () => {
-        console.log("Saved successfully.");
-      },
+      onSuccess: () => { },
       onError: (error) => {
         console.error(error);
         window.alert("Failed to save notebook.");
