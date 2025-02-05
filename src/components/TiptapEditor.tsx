@@ -10,6 +10,7 @@ import axios from "axios";
 import { NotebookType } from "@/lib/db/schema";
 import { Text } from "@tiptap/extension-text";
 import { useCompletion } from "ai/react";
+import { Sparkle } from "lucide-react";
 
 type Props = {
   notebook: NotebookType;
@@ -95,13 +96,25 @@ const TiptapEditor = ({ notebook }: Props) => {
         <EditorContent editor={editor} />
       </div>
       <div className="h-4"></div>
-      <span className="text-sm">
-        Tip: Press{" "}
-        <kbd className="px-2 py-1.5 text-xs font-semibold text-gray-800 bg-gray-200 border border-gray-300 rounded-lg">
-          Alt + a
-        </kbd>{" "}
-        to trigger autocompletion.
-      </span>
+      <div className="flex items-center justify-between">
+        <span className="text-sm">
+          Tip: Press{" "}
+          <kbd className="px-2 py-1.5 text-xs font-semibold text-gray-800 bg-gray-200 border border-gray-300 rounded-lg">
+            Alt + a
+          </kbd>{" "}
+          to trigger autocompletion or..
+        </span>
+        <Button
+          onClick={() => {
+            if (!editor) return;
+            const prompt = editor.getText().split(" ").slice(-30).join(" ");
+            complete(prompt);
+          }}
+        >
+          <Sparkle />
+          Autocomplete!
+        </Button>
+      </div>
     </>
   );
 };
