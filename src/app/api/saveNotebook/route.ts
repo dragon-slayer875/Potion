@@ -6,7 +6,8 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    let { notebookId, editorState } = body;
+    const { editorState } = body;
+    let { notebookId } = body;
     if (!notebookId || !editorState) {
       return new NextResponse("Missing notebookId or editorState", {
         status: 400,

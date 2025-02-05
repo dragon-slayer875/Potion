@@ -11,9 +11,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-type Props = {};
-
-const DashboardPage = async (props: Props) => {
+const DashboardPage = async () => {
   const { userId } = await auth();
   const notebooks = await db
     .select()

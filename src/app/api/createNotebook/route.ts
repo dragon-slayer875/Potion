@@ -1,5 +1,3 @@
-// /api/createNoteBook
-
 import { db } from "@/lib/db";
 import { $notebooks } from "@/lib/db/schema";
 import { generateImage, generateImagePrompt } from "@/lib/ai";

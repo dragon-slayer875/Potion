@@ -15,9 +15,7 @@ import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
-type Props = {};
-
-const CreateNoteDialog = (props: Props) => {
+const CreateNoteDialog = () => {
   const router = useRouter();
   const [input, setInput] = React.useState("");
   const createNotebook = useMutation({

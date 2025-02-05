@@ -33,11 +33,6 @@ const TiptapEditor = ({ notebook }: Props) => {
     return diff;
   }, [completion]);
 
-  React.useEffect(() => {
-    if (!editor || !token) return;
-    editor.commands.insertContent(token);
-  }, [token]);
-
   const saveNotebook = useMutation({
     mutationFn: async () => {
       const response = await axios.post("/api/saveNotebook", {
@@ -84,6 +79,11 @@ const TiptapEditor = ({ notebook }: Props) => {
       },
     });
   }, [debouncedEditorState]);
+
+  React.useEffect(() => {
+    if (!editor || !token) return;
+    editor.commands.insertContent(token);
+  }, [token, editor]);
 
   return (
     <>
