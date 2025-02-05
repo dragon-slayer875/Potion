@@ -70,7 +70,7 @@ const TiptapEditor = ({ notebook }: Props) => {
   React.useEffect(() => {
     if (!debouncedEditorState) return;
     saveNotebook.mutate(undefined, {
-      onSuccess: () => { },
+      onSuccess: () => {},
       onError: (error) => {
         console.error(error);
         window.alert("Failed to save notebook.");
@@ -85,7 +85,7 @@ const TiptapEditor = ({ notebook }: Props) => {
 
   return (
     <>
-      <div className="flex">
+      <div className="flex justify-between">
         {editor && <TiptapMenuBar editor={editor} />}
         <Button disabled variant={"outline"}>
           {saveNotebook.isPending ? "Saving..." : "Saved"}
