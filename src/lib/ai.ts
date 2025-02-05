@@ -65,7 +65,7 @@ export async function generateCompletion(prompt: string) {
         {
           role: "user",
           content: `I am writing a piece of text in a notion like text editor app.
-        Help me complete my train of thought here: ##${prompt}##
+        Help me complete my train of thought here: ${prompt}
         keep the tone of the text consistent with the rest of the text.
         keep the response short and sweet.`,
         },
