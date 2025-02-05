@@ -1,3 +1,4 @@
+import DeleteButton from "@/components/DeleteButton";
 import TiptapEditor from "@/components/TiptapEditor";
 import { Button } from "@/components/ui/button";
 import { clerkClient } from "@/lib/clerk-server";
@@ -57,7 +58,9 @@ const NotebookPage = async (props: Props) => {
           </span>
           <span className="inline-block mx-1">/</span>
           <span className="text-stone-500 font-semibold">{notebook.name}</span>
-          <div className="ml-auto">DELETE BUTTON</div>
+          <div className="ml-auto">
+            <DeleteButton notebookId={parseInt(notebookId)} />
+          </div>
         </div>
         <div className="h-4"></div>
         <div className="border rounded-lg border-stone-200 shadow-xl px-16 py-8 w-full">
