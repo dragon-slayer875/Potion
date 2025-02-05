@@ -60,6 +60,11 @@ const TiptapEditor = ({ notebook }: Props) => {
     autofocus: true,
     extensions: [StarterKit, customText],
     content: editorState,
+    editorProps: {
+      attributes: {
+        class: "flex-1",
+      },
+    },
     immediatelyRender: false,
     onUpdate: ({ editor }) => {
       setEditorState(editor.getHTML());
@@ -92,18 +97,18 @@ const TiptapEditor = ({ notebook }: Props) => {
           {saveNotebook.isPending ? "Saving..." : "Saved"}
         </Button>
       </div>
-      <div className="prose prose-sm w-full mt-4">
-        <EditorContent editor={editor} />
+      <div className="overflow-scroll prose prose-sm min-w-full flex-1 flex md:mt-4">
+        <EditorContent className="flex-1 flex" editor={editor} />
       </div>
       <div className="h-4"></div>
-      <div className="flex items-center justify-between">
-        <span className="text-sm">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center ">
+        <p className="text-sm hidden md:block">
           Tip: Press{" "}
           <kbd className="px-2 py-1.5 text-xs font-semibold text-gray-800 bg-gray-200 border border-gray-300 rounded-lg">
             Alt + a
           </kbd>{" "}
           to trigger autocompletion or..
-        </span>
+        </p>
         <Button
           onClick={() => {
             if (!editor) return;

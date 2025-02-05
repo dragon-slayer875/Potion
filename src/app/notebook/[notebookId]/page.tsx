@@ -44,8 +44,8 @@ const NotebookPage = async (props: Props) => {
   const notebook = notebooks[0];
 
   return (
-    <div className="min-h-screen grainy p-8">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen max-h-screen grainy lg:p-8 flex">
+      <div className="max-w-4xl mx-auto flex-1 flex flex-col">
         <div className="border shadow-xl border-stone-200 rounded-lg p-4 flex items-center">
           <Link href="/dashboard">
             <Button className="bg-sky-600" size="sm">
@@ -53,17 +53,17 @@ const NotebookPage = async (props: Props) => {
             </Button>
           </Link>
           <div className="w-3"></div>
-          <span className="font-semibold">
+          <span className="hidden sm:block font-semibold">
             {user.firstName} {user.lastName}
           </span>
-          <span className="inline-block mx-1">/</span>
+          <span className="hidden sm:inline-block mx-1">/</span>
           <span className="text-stone-500 font-semibold">{notebook.name}</span>
           <div className="ml-auto">
             <DeleteButton notebookId={parseInt(notebookId)} />
           </div>
         </div>
-        <div className="h-4"></div>
-        <div className="border rounded-lg border-stone-200 shadow-xl px-16 py-8 w-full">
+        <div className="md:h-4"></div>
+        <div className="overflow-scroll border rounded-lg border-stone-200 shadow-xl px-4 md:px-16 py-8 h-full w-full flex-1 flex flex-col">
           <TiptapEditor notebook={notebook} />
         </div>
       </div>

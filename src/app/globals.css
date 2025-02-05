@@ -79,6 +79,7 @@ body {
 
 .tiptap.ProseMirror {
   outline: none;
+  overflow-wrap: anywhere;
 }
 
 .is-active {
